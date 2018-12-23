@@ -7,6 +7,10 @@ Provision a static website hosted through S3 in AWS.
 - Sets up email forwarding for domain to S3 bucket
 - Redirects www. requests to root domain
 
+## Prerequisites
+- Create hosted zone for intended domain in Route53
+- Set the domain's nameservers to point to the AWS nameservers listed in the hosted zone
+
 ## Usage
 ```
 terraform apply \
