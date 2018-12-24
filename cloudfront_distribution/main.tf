@@ -1,5 +1,4 @@
 locals {
-  www_domain_name = "www.${var.domain_name}"
   origin_id = "origin-s3-${var.domain_name}"
 }
 
@@ -16,8 +15,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  aliases = ["${var.domain_name}", "${local.www_domain_name}"]
-  default_root_object = "index.html"
+  aliases = ["${var.domain_name}"]
 
   enabled = true
   http_version = "http2"

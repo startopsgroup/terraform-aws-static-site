@@ -8,7 +8,7 @@ Provision a static website hosted through S3 in AWS.
 - Redirects www. requests to root domain
 
 ## Prerequisites
-- Create hosted zone for intended domain in Route53
+- Create hosted zone for intended domain in Route 53
 - Set the domain's nameservers to point to the AWS nameservers listed in the hosted zone
 
 ## Usage
