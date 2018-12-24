@@ -58,7 +58,7 @@ module "www_cdn" {
 }
 
 module "root_dns_record" {
-  source = "./route53_record"
+  source = "./cloudfront_route53_record"
   domain_name = "${local.root_domain_name}"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   cdn_domain_name = "${module.root_cdn.domain_name}"
@@ -66,7 +66,7 @@ module "root_dns_record" {
 }
 
 module "www_dns_record" {
-  source = "./route53_record"
+  source = "./cloudfront_route53_record"
   domain_name = "${local.www_domain_name}"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   cdn_domain_name = "${module.www_cdn.domain_name}"
