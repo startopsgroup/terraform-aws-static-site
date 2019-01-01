@@ -1,18 +1,10 @@
 locals {
   root_bucket_name = "${var.domain_name}"
   www_bucket_name = "www.${var.domain_name}"
-  log_bucket_name = "logs.${var.domain_name}"
-}
-
-resource "aws_s3_bucket" "log_bucket" {
-  bucket = "${local.log_bucket_name}"
-  acl = "log-delivery-write"
-  force_destroy = true
 }
 
 resource "aws_s3_bucket" "root_bucket" {
   bucket = "${local.root_bucket_name}"
-  depends_on = ["aws_s3_bucket.log_bucket"]
 
   website {
     index_document = "index.html"
@@ -37,7 +29,7 @@ resource "aws_s3_bucket" "root_bucket" {
 POLICY
 
   logging {
-    target_bucket = "${local.log_bucket_name}"
+    target_bucket = "${var.log_bucket_name}"
     target_prefix = "root/"
   }
 }

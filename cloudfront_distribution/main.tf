@@ -55,6 +55,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     minimum_protocol_version = "TLSv1.1_2016"
   }
 
+  logging_config {
+    include_cookies = false
+    bucket          = "${var.log_bucket_name}"
+    prefix          = "${var.log_prefix}"
+  }
+
   restrictions {
     geo_restriction {
       restriction_type = "none"

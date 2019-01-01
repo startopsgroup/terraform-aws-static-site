@@ -10,15 +10,36 @@ provider "aws" {
 locals {
   root_domain_name = "${var.domain_name}"
   www_domain_name = "www.${var.domain_name}"
+  log_bucket_name = "logs.${var.domain_name}"
 }
 
 data "aws_route53_zone" "hosted_zone" {
   name = "${local.root_domain_name}."
 }
 
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = "${local.log_bucket_name}"
+  acl = "log-delivery-write"
+  force_destroy = true
+
+  lifecycle_rule {
+    id      = "cleanup-logs"
+    enabled = true
+
+    expiration {
+      days = 30
+    }
+
+    noncurrent_version_expiration {
+      days = 1
+    }
+  }
+}
+
 module "website" {
   source = "./s3_website"
   domain_name = "${local.root_domain_name}"
+  log_bucket_name = "${aws_s3_bucket.log_bucket.id}"
 }
 
 module "email-receiving" {
@@ -48,6 +69,8 @@ module "root_cdn" {
   acm_certificate_arn = "${module.certificate.acm_certificate_arn}"
   not_found_path = "${var.not_found_path}"
   not_found_response_code = "${var.not_found_response_code}"
+  log_bucket_name = "${aws_s3_bucket.log_bucket.bucket_domain_name}"
+  log_prefix = "cf-logs/"
 }
 
 module "www_cdn" {
@@ -57,6 +80,8 @@ module "www_cdn" {
   acm_certificate_arn = "${module.certificate.acm_certificate_arn}"
   not_found_path = "${var.not_found_path}"
   not_found_response_code = "${var.not_found_response_code}"
+  log_bucket_name = "${aws_s3_bucket.log_bucket.bucket_domain_name}"
+  log_prefix = "cf-logs/"
 }
 
 module "root_dns_record" {
