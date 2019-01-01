@@ -30,10 +30,9 @@ resource "aws_ses_receipt_rule" "receipt_rule" {
   name = "${var.domain_name}-inbound-email-s3"
   rule_set_name = "default-rule-set"
   enabled = true
-  depends_on = ["aws_s3_bucket.email_receiving_bucket"]
 
   s3_action {
-    bucket_name = "${local.email_bucket_name}"
+    bucket_name = "${aws_s3_bucket.email_receiving_bucket.id}"
     position = 1
   }
 }
