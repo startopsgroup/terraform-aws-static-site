@@ -47,6 +47,7 @@ module "root_cdn" {
   domain_name = "${local.root_domain_name}"
   acm_certificate_arn = "${module.certificate.acm_certificate_arn}"
   not_found_path = "${var.not_found_path}"
+  not_found_response_code = "${var.not_found_response_code}"
 }
 
 module "www_cdn" {
@@ -55,6 +56,7 @@ module "www_cdn" {
   domain_name = "${local.www_domain_name}"
   acm_certificate_arn = "${module.certificate.acm_certificate_arn}"
   not_found_path = "${var.not_found_path}"
+  not_found_response_code = "${var.not_found_response_code}"
 }
 
 module "root_dns_record" {
