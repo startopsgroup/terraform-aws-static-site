@@ -33,13 +33,13 @@ resource "aws_s3_bucket" "log_bucket" {
 }
 
 module "website" {
-  source = "./s3_website"
+  source = "modules/s3_website"
   domain_name = "${local.root_domain_name}"
   log_bucket_name = "${aws_s3_bucket.log_bucket.id}"
 }
 
 module "email-receiving" {
-  source = "./ses_email_receiving"
+  source = "modules/ses_email_receiving"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   domain_name = "${local.root_domain_name}"
 
@@ -49,7 +49,7 @@ module "email-receiving" {
 }
 
 module "certificate" {
-  source = "./acm_certificate"
+  source = "modules/acm_certificate"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   domain_name = "${local.root_domain_name}"
 
@@ -59,7 +59,7 @@ module "certificate" {
 }
 
 module "root_cdn" {
-  source = "./cloudfront_distribution"
+  source = "modules/cloudfront_distribution"
   website_endpoint = "${module.website.root_website_endpoint}"
   domain_name = "${local.root_domain_name}"
   acm_certificate_arn = "${module.certificate.acm_certificate_arn}"
@@ -70,7 +70,7 @@ module "root_cdn" {
 }
 
 module "www_cdn" {
-  source = "./cloudfront_distribution"
+  source = "modules/cloudfront_distribution"
   website_endpoint = "${module.website.www_website_endpoint}"
   domain_name = "${local.www_domain_name}"
   acm_certificate_arn = "${module.certificate.acm_certificate_arn}"
@@ -81,7 +81,7 @@ module "www_cdn" {
 }
 
 module "root_dns_record" {
-  source = "./cloudfront_route53_record"
+  source = "modules/cloudfront_route53_record"
   domain_name = "${local.root_domain_name}"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   cdn_domain_name = "${module.root_cdn.domain_name}"
@@ -89,7 +89,7 @@ module "root_dns_record" {
 }
 
 module "www_dns_record" {
-  source = "./cloudfront_route53_record"
+  source = "modules/cloudfront_route53_record"
   domain_name = "${local.www_domain_name}"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   cdn_domain_name = "${module.www_cdn.domain_name}"
