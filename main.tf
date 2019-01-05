@@ -36,6 +36,8 @@ module "website" {
   source = "modules/s3_website"
   domain_name = "${local.root_domain_name}"
   log_bucket_name = "${aws_s3_bucket.log_bucket.id}"
+  index_document = "${var.index_document}"
+  error_document = "${var.error_document}"
 }
 
 module "email-receiving" {

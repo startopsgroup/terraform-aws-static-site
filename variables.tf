@@ -1,5 +1,13 @@
 variable "domain_name" {
-  description = "The domain name that the website will be nested under. Must be the root domain and not include www. (e.g. google.com)"
+  description = "The domain name that the website will be nested under. Must be the root domain and not include www. (e.g. google.com)."
+}
+
+variable "index_document" {
+  description = "The name of the file that S3 will use as the index document for the static website."
+}
+
+variable "error_document" {
+  description = "The name of the file to be returned by S3 should an error occur."
 }
 
 variable "not_found_path" {
