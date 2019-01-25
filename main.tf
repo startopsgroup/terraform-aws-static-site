@@ -40,16 +40,6 @@ module "website" {
   error_document = "${var.error_document}"
 }
 
-module "email-receiving" {
-  source = "modules/ses_email_receiving"
-  hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
-  domain_name = "${local.root_domain_name}"
-
-  providers = {
-    aws = "aws.use1"
-  }
-}
-
 module "certificate" {
   source = "modules/acm_certificate"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
