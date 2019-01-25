@@ -4,8 +4,8 @@ Provision a static website hosted through S3 in AWS.
 
 ## Features
 - Creates SSL certificate to enable HTTPS
-- Sets up email forwarding for domain to S3 bucket
 - Redirects www. requests to root domain
+- Uses CloudFront to serve content
 
 ## Prerequisites
 - Create hosted zone for intended domain in Route 53
@@ -19,10 +19,14 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-module "static_site" {
-  source = "github.com/jamesturner/terraform-aws-static-site"
+module "static-site" {
+  source  = "jamesturner/static-site/aws"
+  version = "0.1.0"
 
   domain_name = "example.com"
+
+  index_document = "index.html"
+  error_document = "error.html"
 
   not_found_path = "/404.html"
   not_found_response_code = "404"
