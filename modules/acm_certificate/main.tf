@@ -2,6 +2,9 @@ resource "aws_acm_certificate" "certificate" {
   domain_name = "${var.domain_name}"
   subject_alternative_names = ["*.${var.domain_name}"]
   validation_method = "DNS"
+  tags {
+    StaticSite = "${var.domain_name}"
+  }
 }
 
 resource "aws_route53_record" "validation_record" {

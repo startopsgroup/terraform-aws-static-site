@@ -32,6 +32,10 @@ POLICY
     target_bucket = "${var.log_bucket_name}"
     target_prefix = "root/"
   }
+
+  tags {
+    StaticSite = "${var.domain_name}"
+  }
 }
 
 resource "aws_s3_bucket" "www_bucket" {
@@ -40,5 +44,9 @@ resource "aws_s3_bucket" "www_bucket" {
 
   website {
     redirect_all_requests_to = "https://${var.domain_name}"
+  }
+
+  tags {
+    StaticSite = "${var.domain_name}"
   }
 }

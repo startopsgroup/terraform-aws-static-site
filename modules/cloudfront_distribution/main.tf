@@ -66,4 +66,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       restriction_type = "none"
     }
   }
+
+  tags {
+    StaticSite = "${var.domain_name}"
+  }
 }
