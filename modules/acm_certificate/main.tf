@@ -3,7 +3,7 @@ resource "aws_acm_certificate" "certificate" {
   subject_alternative_names = ["*.${var.domain_name}"]
   validation_method = "DNS"
   tags {
-    StaticSite = "${var.domain_name}"
+    StaticSite = "${var.static_site_tag}"
   }
 }
 

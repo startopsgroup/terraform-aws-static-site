@@ -68,6 +68,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   tags {
-    StaticSite = "${var.domain_name}"
+    StaticSite = "${var.static_site_tag}"
   }
 }

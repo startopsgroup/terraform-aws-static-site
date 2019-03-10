@@ -17,3 +17,7 @@ variable "not_found_path" {
 variable "not_found_response_code" {
   description = "The HTTP status code that should be returned when the user attempts to visit a page that doesn't exist. This will usually be 404 unless the website is a SPA, in which case it may be desirable to return 200 and handle the not found case on the client side"
 }
+
+variable "static_site_tag" {
+  description = "The name of the static site stack that will be added as a 'StaticSite' tag to each resource"
+}

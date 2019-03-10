@@ -34,7 +34,7 @@ POLICY
   }
 
   tags {
-    StaticSite = "${var.domain_name}"
+    StaticSite = "${var.static_site_tag}"
   }
 }
 
@@ -47,6 +47,6 @@ resource "aws_s3_bucket" "www_bucket" {
   }
 
   tags {
-    StaticSite = "${var.domain_name}"
+    StaticSite = "${var.static_site_tag}"
   }
 }

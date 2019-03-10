@@ -30,6 +30,10 @@ resource "aws_s3_bucket" "log_bucket" {
       days = 1
     }
   }
+
+  tags {
+    StaticSite = "${var.static_site_tag}"
+  }
 }
 
 module "website" {
@@ -38,12 +42,14 @@ module "website" {
   log_bucket_name = "${aws_s3_bucket.log_bucket.id}"
   index_document = "${var.index_document}"
   error_document = "${var.error_document}"
+  static_site_tag = "${var.static_site_tag}"
 }
 
 module "certificate" {
   source = "modules/acm_certificate"
   hosted_zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   domain_name = "${local.root_domain_name}"
+  static_site_tag = "${var.static_site_tag}"
 
   providers = {
     aws = "aws.use1"
@@ -59,6 +65,7 @@ module "root_cdn" {
   not_found_response_code = "${var.not_found_response_code}"
   log_bucket_name = "${aws_s3_bucket.log_bucket.bucket_domain_name}"
   log_prefix = "cf-logs/"
+  static_site_tag = "${var.static_site_tag}"
 }
 
 module "www_cdn" {
@@ -70,6 +77,7 @@ module "www_cdn" {
   not_found_response_code = "${var.not_found_response_code}"
   log_bucket_name = "${aws_s3_bucket.log_bucket.bucket_domain_name}"
   log_prefix = "cf-logs/"
+  static_site_tag = "${var.static_site_tag}"
 }
 
 module "root_dns_record" {
