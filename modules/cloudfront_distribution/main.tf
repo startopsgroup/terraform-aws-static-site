@@ -21,8 +21,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   http_version = "http2"
   is_ipv6_enabled = true
 
-  price_class = "PriceClass_100" // Europe, US and Canada
-
   custom_error_response {
     error_code = "404"
     response_code = "${var.not_found_response_code}"
@@ -67,7 +65,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  tags {
+  tags = {
     StaticSite = "${var.static_site_tag}"
   }
 }

@@ -33,7 +33,7 @@ POLICY
     target_prefix = "root/"
   }
 
-  tags {
+  tags = {
     StaticSite = "${var.static_site_tag}"
   }
 }
@@ -46,7 +46,7 @@ resource "aws_s3_bucket" "www_bucket" {
     redirect_all_requests_to = "https://${var.domain_name}"
   }
 
-  tags {
+  tags = {
     StaticSite = "${var.static_site_tag}"
   }
 }
